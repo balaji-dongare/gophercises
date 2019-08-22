@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Bala-G/gophercises/CLI/task/dbrepository"
+	"github.com/balaji-dongare/gophercises/CLI/task/dbrepository"
 	"github.com/spf13/cobra"
 )
 
@@ -19,13 +19,12 @@ var AddTask = &cobra.Command{
 			if err != nil {
 				fmt.Printf("Unable to add Task:\"%s\" in todo list\n", task)
 			}
-
 			if status {
 				fmt.Printf("Task:\"%s\" is Added in todo list\n", task)
 			}
 		} else {
 			fmt.Printf("Please provide task\n")
-		}
+		}	
 	},
 }
 

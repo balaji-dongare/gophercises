@@ -3,7 +3,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/Bala-G/gophercises/CLI/task/dbrepository"
+	"github.com/balaji-dongare/gophercises/CLI/task/dbrepository"
 	"github.com/spf13/cobra"
 )
 
