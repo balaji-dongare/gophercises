@@ -17,13 +17,11 @@ var AddTask = &cobra.Command{
 			task := strings.Join(args, " ")
 			status, err := dbrepository.InsertTaskIntoDB(task)
 			if err != nil {
-				fmt.Println("Not able to add task to todo")
+				fmt.Printf("Unable to add Task:\"%s\" in todo list\n", task)
 			}
 
 			if status {
 				fmt.Printf("Task:\"%s\" is Added in todo list\n", task)
-			} else {
-				fmt.Printf("Unable to add Task:\"%s\" in todo list\n", task)
 			}
 		} else {
 			fmt.Printf("Please provide task\n")
