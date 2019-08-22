@@ -2,6 +2,7 @@ package dbrepository
 
 import (
 	"database/sql"
+	"fmt"
 
 	// driver package
 	_ "github.com/mattn/go-sqlite3"
@@ -38,7 +39,9 @@ func ReadTodosTaskFromDB() ([]string, error) {
 	var tasks []string
 	var task string
 	stmt, err := db.Prepare("select task from tasks")
-	if err == nil {
+	if err != nil {
+		fmt.Printf("%v", err)
+	} else {
 		rows, err := stmt.Query()
 		if err == nil {
 			defer rows.Close()
@@ -57,7 +60,9 @@ func MarkTaskAsDone(ids []int) ([]int, []string, error) {
 	var notExist []int
 	var taskDone []string
 	tasks, err := ReadTodosTaskFromDB()
-	if err == nil {
+	if err != nil {
+		fmt.Printf("%v", err)
+	} else {
 		var deleteTask []string
 		for _, id := range ids {
 			if id-1 < len(tasks) {
