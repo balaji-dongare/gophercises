@@ -4,8 +4,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/TestGit/gophercises/CLI/task/cmd"
-	"github.com/TestGit/gophercises/CLI/task/dbrepository"
+	"github.com/Bala-G/gophercises/CLI/task/cmd"
+	"github.com/Bala-G/gophercises/CLI/task/dbrepository"
 )
 
 func main() {
