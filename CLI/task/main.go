@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/balaji-dongare/gophercises/CLI/task/cmd"
 	"github.com/balaji-dongare/gophercises/CLI/task/dbrepository"
+	"github.com/spf13/cobra/cobra/cmd"
 )
 
 func main() {
@@ -17,6 +17,6 @@ func main() {
 	}
 	err := cmd.Execute()
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
 }

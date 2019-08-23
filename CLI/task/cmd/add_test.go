@@ -63,7 +63,7 @@ func TestAddCMDError(t *testing.T) {
 	}()
 
 	addTask = func(task string) (bool, error) {
-		return false, errors.New("Got Error")
+		return false, errors.New("Got Error in add task")
 	}
 	AddTask.Run(&cobra.Command{}, []string{"Got", "Error"})
 }

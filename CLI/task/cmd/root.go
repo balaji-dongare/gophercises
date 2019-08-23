@@ -11,6 +11,6 @@ var RootCmd = &cobra.Command{
 }
 
 // Execute is used to add command under root command
-func Execute() error {
+func execute() error {
 	return RootCmd.Execute()
 }

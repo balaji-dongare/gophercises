@@ -1,9 +1,12 @@
 package cmd
 
 import (
+	"errors"
 	"io/ioutil"
 	"os"
 	"testing"
+
+	"github.com/spf13/cobra"
 )
 
 func TestListCmd(t *testing.T) {
@@ -28,4 +31,16 @@ func TestListCmd(t *testing.T) {
 		}
 	}
 	os.Stdout = old
+}
+func TestListCmdError(t *testing.T) {
+	initdb()
+	testdef := listTask
+	defer func() {
+		listTask = testdef
+	}()
+
+	listTask = func() ([]string, error) {
+		return nil, errors.New("Got Error in ListTask")
+	}
+	ListTask.Run(&cobra.Command{}, []string{"Eoror got", "in list task"})
 }
