@@ -9,16 +9,23 @@ import (
 )
 
 var db *sql.DB
+var initDB = sql.Open
 
 // InitDatabase function used to initialized the sqlite3 db
 func InitDatabase(dbPath string) error {
 	var err error
 
-	db, err = sql.Open("sqlite3", dbPath)
-	if err == nil {
-		_, err = db.Exec("create table if not exists tasks(task text primary key)")
+	db, err = initDB("sqlite3", dbPath)
+	if err != nil {
+		fmt.Printf("Error While Connection:%v", err)
+		return err
 	}
-	return err
+	_, err = db.Exec("create table if not exists tasks(task text primary key)")
+	if err != nil {
+		fmt.Printf("Error while creating task table:%v", err)
+		return err
+	}
+	return nil
 }
 
 // InsertTaskIntoDB function used to insert the task into db

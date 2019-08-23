@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 
@@ -12,7 +13,7 @@ func main() {
 	dir, _ := os.Getwd()
 	databasepath := filepath.Join(dir, "tasks.db")
 	if err := dbrepository.InitDatabase(databasepath); err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
 	err := cmd.Execute()
 	if err != nil {

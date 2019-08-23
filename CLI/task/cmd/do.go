@@ -8,6 +8,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var doTask = dbrepository.MarkTaskAsDone
+
 //DoTask  Marks task as completed
 var DoTask = &cobra.Command{
 	Use:   "do",
@@ -24,23 +26,22 @@ var DoTask = &cobra.Command{
 				}
 			}
 			//fmt.Println(ids)
-			notValidIds, taskdone, err := dbrepository.MarkTaskAsDone(ids)
+			notValidIds, taskdone, err := doTask(ids)
 			note := ""
 			if err != nil {
 				note = "Sorry! Unable to mark as Complete."
-				fmt.Printf("\n%v due to : %v\n", note, err)
+				fmt.Printf("%v due to : %v", note, err)
 			} else {
 				if len(notValidIds) >= 1 {
-					note = fmt.Sprintf("\n%v these ids not exist\n", notValidIds)
+					note = fmt.Sprintf("%v these ids not exist", notValidIds)
 				} else {
-					fmt.Printf("Following Task Completed:\n")
 					for i, task := range taskdone {
-						fmt.Printf("%d. %v\n", i+1, task)
+						fmt.Printf("%d. %v", i+1, task)
 					}
 				}
 			}
 		} else {
-			fmt.Printf("Please provide task id\n")
+			fmt.Printf("Please provide task id")
 		}
 	},
 }

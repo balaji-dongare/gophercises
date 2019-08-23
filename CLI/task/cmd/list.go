@@ -18,10 +18,10 @@ var ListTask = &cobra.Command{
 		}
 		if len(tasks) > 0 {
 			for i, task := range tasks {
-				fmt.Printf("%d. %v\n", i+1, task)
+				fmt.Printf("%d. %v ", i+1, task)
 			}
 		} else {
-			fmt.Print("No Tasks are in todos...Great!\n")
+			fmt.Print("No Tasks are in todos...Great!")
 		}
 	},
 }

@@ -8,6 +8,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var addTask = dbrepository.InsertTaskIntoDB
+
 //AddTask Add new task in todo task list
 var AddTask = &cobra.Command{
 	Use:   "add",
@@ -15,16 +17,16 @@ var AddTask = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) > 0 {
 			task := strings.Join(args, " ")
-			status, err := dbrepository.InsertTaskIntoDB(task)
+			status, err := addTask(task)
 			if err != nil {
-				fmt.Printf("Unable to add Task:\"%s\" in todo list\n", task)
+				fmt.Printf("Unable to add Task:\"%s\" in todo list", task)
 			}
 			if status {
-				fmt.Printf("Task:\"%s\" is Added in todo list\n", task)
+				fmt.Printf("Task:\"%s\" is Added in todo list", task)
 			}
 		} else {
-			fmt.Printf("Please provide task\n")
-		}	
+			fmt.Printf("Please provide task")
+		}
 	},
 }
 
