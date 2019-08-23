@@ -7,14 +7,14 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var listTask = dbrepository.ReadTodosTaskFromDB
+var listallTask = dbrepository.ReadTodosTaskFromDB
 
 //ListTask  Show todo task list
 var ListTask = &cobra.Command{
 	Use:   "list",
 	Short: "list is a CLI command to show todo task list ",
 	Run: func(cmd *cobra.Command, args []string) {
-		tasks, err := listTask()
+		tasks, err := listallTask()
 		if err != nil {
 			fmt.Print("\nNo task found")
 		}

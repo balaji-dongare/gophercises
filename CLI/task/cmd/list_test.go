@@ -34,12 +34,12 @@ func TestListCmd(t *testing.T) {
 }
 func TestListCmdError(t *testing.T) {
 	initdb()
-	testdef := listTask
+	testdef := listallTask
 	defer func() {
-		listTask = testdef
+		listallTask = testdef
 	}()
 
-	listTask = func() ([]string, error) {
+	listallTask = func() ([]string, error) {
 		return nil, errors.New("Got Error in ListTask")
 	}
 	ListTask.Run(&cobra.Command{}, []string{"Eoror got", "in list task"})
