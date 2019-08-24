@@ -81,8 +81,8 @@ func recoveryHandle(app http.Handler) http.HandlerFunc {
 
 //linkForm  it will parse the linke and make link using filename:linenuber
 func linkForm(stack string) string {
-	re := regexp.MustCompile("(\t.*:[0-9]*)")
-	lines := re.FindAllString(stack, -1)
+	regex := regexp.MustCompile("(\t.*:[0-9]*)")
+	lines := regex.FindAllString(stack, -1)
 	for _, line := range lines {
 		regexSplit := regexp.MustCompile(":")
 		splits := regexSplit.Split(line, -1)
