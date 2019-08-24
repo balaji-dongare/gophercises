@@ -16,6 +16,8 @@ import (
 	"github.com/alecthomas/chroma/styles"
 )
 
+var osOpen = os.Open
+
 //debugHandler  it will handle the request on /panic and calles panic method
 func debugHandler(w http.ResponseWriter, r *http.Request) {
 	path := r.FormValue("path")
@@ -25,7 +27,7 @@ func debugHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	file, err := os.Open(path)
+	file, err := osOpen(path)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

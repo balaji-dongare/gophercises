@@ -1,10 +1,12 @@
 package main
 
 import (
+	"errors"
 	"io"
 	"log"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 	"time"
 )
@@ -92,4 +94,16 @@ func TestDebugHandler(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestDebugHandlerError(t *testing.T) {
+	testdef := osOpen
+	defer func() {
+		osOpen = testdef
+	}()
+
+	osOpen = func(name string) (*os.File, error) {
+		return nil, errors.New("Got Error in File Open")
+	}
+	osOpen("test.txt")
 }
