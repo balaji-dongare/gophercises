@@ -15,6 +15,7 @@ var listCmd = &cobra.Command{
 		value, err := v.List()
 		if err != nil {
 			fmt.Print("\nNo key found")
+			return
 		}
 		if len(value) > 0 {
 			for i, key := range value {

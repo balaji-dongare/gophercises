@@ -18,11 +18,11 @@ func Encrypt(key, plaintext string) (string, error) {
 	initnvector := ciphertext[:aes.BlockSize]
 	_, err := io.ReadFull(rand.Reader, initnvector)
 	if err != nil {
-		fmt.Println(err)
-	} else {
-		stream := cipher.NewCFBEncrypter(block, initnvector)
-		stream.XORKeyStream(ciphertext[aes.BlockSize:], []byte(plaintext))
+		return "", err
 	}
+	stream := cipher.NewCFBEncrypter(block, initnvector)
+	stream.XORKeyStream(ciphertext[aes.BlockSize:], []byte(plaintext))
+
 	return fmt.Sprintf("%x", ciphertext), err
 }
 
@@ -31,21 +31,20 @@ func Decrypt(key, cipherHex string) (string, error) {
 	var ciphertext []byte
 	block, err := newCipher(key)
 	if err != nil {
-		fmt.Println(err)
-	} else {
-		ciphertext, err = hex.DecodeString(cipherHex)
-		if err != nil {
-			fmt.Println(err)
-		} else {
-			if len(ciphertext) >= aes.BlockSize {
-				initnvector := ciphertext[:aes.BlockSize]
-				ciphertext = ciphertext[aes.BlockSize:]
-
-				stream := cipher.NewCFBDecrypter(block, initnvector)
-				stream.XORKeyStream(ciphertext, ciphertext)
-			}
-		}
+		return "", err
 	}
+	ciphertext, err = hex.DecodeString(cipherHex)
+	if err != nil {
+		return "", err
+	}
+	if len(ciphertext) >= aes.BlockSize {
+		initnvector := ciphertext[:aes.BlockSize]
+		ciphertext = ciphertext[aes.BlockSize:]
+
+		stream := cipher.NewCFBDecrypter(block, initnvector)
+		stream.XORKeyStream(ciphertext, ciphertext)
+	}
+
 	return string(ciphertext), err
 }
 func newCipher(key string) (cipher.Block, error) {

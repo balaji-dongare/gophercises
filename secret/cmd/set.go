@@ -16,6 +16,7 @@ var setCmd = &cobra.Command{
 		err := v.Set(args[0], args[1])
 		if err != nil {
 			fmt.Println("Key not set")
+			return
 		}
 		fmt.Println("Key set")
 	},

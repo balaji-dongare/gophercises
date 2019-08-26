@@ -3,7 +3,6 @@ package vault
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"os"
 	"sync"
@@ -44,17 +43,15 @@ func (v *Vault) readData(f io.Reader) error {
 func (v *Vault) save(key, value string) error {
 	f, err := os.OpenFile(v.filepath, os.O_RDWR|os.O_CREATE, 0755)
 	if err != nil {
-		fmt.Println(err)
-	} else {
-		defer f.Close()
-		hex, err := cipher.Encrypt(v.encodingKey, value)
-		if err != nil {
-			fmt.Println(err)
-		} else {
-			v.keyValues[key] = hex
-			err = v.writer(f)
-		}
+		return err
 	}
+	defer f.Close()
+	hex, err := cipher.Encrypt(v.encodingKey, value)
+	if err != nil {
+		return err
+	}
+	v.keyValues[key] = hex
+	err = v.writer(f)
 	return err
 }
 func (v *Vault) writer(f io.Writer) error {
@@ -91,7 +88,7 @@ func (v *Vault) List() ([]string, error) {
 	defer v.mutex.Unlock()
 	err := v.loadFile()
 	if err != nil {
-		fmt.Println("File not found")
+		return nil, errors.New("File Not Found")
 	}
 	hexcode := v.keyValues
 	keys := make([]string, len(hexcode))
