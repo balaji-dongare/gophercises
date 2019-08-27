@@ -2,22 +2,30 @@ package dbrepository
 
 import (
 	"database/sql"
+	"fmt"
 
 	// driver package
 	_ "github.com/mattn/go-sqlite3"
 )
 
 var db *sql.DB
+var initDB = sql.Open
 
 // InitDatabase function used to initialized the sqlite3 db
 func InitDatabase(dbPath string) error {
 	var err error
 
-	db, err = sql.Open("sqlite3", dbPath)
-	if err == nil {
-		_, err = db.Exec("create table if not exists tasks(task text primary key)")
+	db, err = initDB("sqlite3", dbPath)
+	if err != nil {
+		fmt.Printf("Error While Connection:%v", err)
+		return err
 	}
-	return err
+	_, err = db.Exec("create table if not exists tasks(task text primary key)")
+	if err != nil {
+		fmt.Printf("Error while creating task table:%v", err)
+		return err
+	}
+	return nil
 }
 
 // InsertTaskIntoDB function used to insert the task into db
@@ -38,7 +46,9 @@ func ReadTodosTaskFromDB() ([]string, error) {
 	var tasks []string
 	var task string
 	stmt, err := db.Prepare("select task from tasks")
-	if err == nil {
+	if err != nil {
+		fmt.Printf("%v", err)
+	} else {
 		rows, err := stmt.Query()
 		if err == nil {
 			defer rows.Close()
@@ -57,7 +67,9 @@ func MarkTaskAsDone(ids []int) ([]int, []string, error) {
 	var notExist []int
 	var taskDone []string
 	tasks, err := ReadTodosTaskFromDB()
-	if err == nil {
+	if err != nil {
+		fmt.Printf("%v", err)
+	} else {
 		var deleteTask []string
 		for _, id := range ids {
 			if id-1 < len(tasks) {
