@@ -10,13 +10,15 @@ import (
 	"io"
 )
 
+var ioReadFull = io.ReadFull
+
 // Encrypt it encrypt's the key
 func Encrypt(key, plaintext string) (string, error) {
 	block, _ := newCipher(key)
 
 	ciphertext := make([]byte, aes.BlockSize+len(plaintext))
 	initnvector := ciphertext[:aes.BlockSize]
-	_, err := io.ReadFull(rand.Reader, initnvector)
+	_, err := ioReadFull(rand.Reader, initnvector)
 	if err != nil {
 		return "", err
 	}
@@ -26,14 +28,17 @@ func Encrypt(key, plaintext string) (string, error) {
 	return fmt.Sprintf("%x", ciphertext), err
 }
 
+var hexDecode = hex.DecodeString
+var newCher = newCipher
+
 // Decrypt it decrypt's the key value
 func Decrypt(key, cipherHex string) (string, error) {
 	var ciphertext []byte
-	block, err := newCipher(key)
+	block, err := newCher(key)
 	if err != nil {
 		return "", err
 	}
-	ciphertext, err = hex.DecodeString(cipherHex)
+	ciphertext, err = hexDecode(cipherHex)
 	if err != nil {
 		return "", err
 	}
