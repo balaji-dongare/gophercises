@@ -62,3 +62,38 @@ func TestList(t *testing.T) {
 		}
 	}
 }
+func getSecretFilePathWrong() string {
+	dir, _ := os.Getwd()
+	secretpath := filepath.Join(dir, "./secrets")
+	return secretpath
+}
+
+func TestListError(t *testing.T) {
+	expected := "testcase"
+	v := GetVault("key123", getSecretFilePathWrong())
+	value, err := v.List()
+	if err != nil {
+		fmt.Print("\nNo key found")
+	}
+	for _, key := range value {
+		if expected != key {
+			t.Error("empty secret file")
+		}
+	}
+}
+
+// func TestSaveError(t *testing.T) {
+// 	deftef := cipherEnc
+// 	defer func() {
+// 		cipherEnc = deftef
+// 	}()
+// 	deftef = func(key, plaintext string) (string, error) {
+// 		return "test1", errors.New("Error")
+// 	}
+// 	v := GetVault("key123", getSecretFilePath())
+// 	err := v.Set("testcase2", "This is testcase2")
+// 	if err != nil {
+// 		t.Error(err)
+// 	}
+
+// }
