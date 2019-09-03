@@ -209,5 +209,6 @@ func getHandlers() *http.ServeMux {
 
 // this is main function we defined all the router here
 func main() {
+	fmt.Println("Server is listening :3000")
 	http.ListenAndServe(":3000", getHandlers())
 }
